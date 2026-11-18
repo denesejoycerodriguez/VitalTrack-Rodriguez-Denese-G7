@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app">
+  <aside class="sidebar">
+    <a class="brand" href="{% url 'dashboard' %}">{% include "includes/logo.html" %}<span class="brand-name">VitalTrack</span></a>
+    <nav aria-label="Main">
+      {% with current=request.resolver_match.url_name %}
+      <div class="nav-group">Overview</div>
+      <a class="side-link {% if current == 'nurse_dashboard' or current == 'admin_dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+      {% if user.is_admin_role %}
+        <div class="nav-group">Administration</div>
+        <span class="side-link disabled" aria-disabled="true">Reports <span class="soon">Soon</span></span>
+        <a class="side-link" href="/admin/">Manage users</a>
+      {% else %}
+        <div class="nav-group">Clinic</div>
+        <span class="side-link disabled" aria-disabled="true">Students <span class="soon">Soon</span></span>
+        <span class="side-link disabled" aria-disabled="true">Medication log <span class="soon">Soon</span></span>
+        <span class="side-link disabled" aria-disabled="true">Clinic visits <span class="soon">Soon</span></span>
+        <span class="side-link disabled" aria-disabled="true">Immunizations <span class="soon">Soon</span></span>
+      {% endif %}
+      <div class="nav-group">Account</div>
+      <a class="side-link {% if current == 'profile' or current == 'profile_edit' %}active{% endif %}" href="{% url 'profile' %}">My profile</a>
+      {% endwith %}
+    </nav>
+    <div class="side-user">
+      <div class="d-flex align-items-center gap-2 mb-3">
+        {% if user.profile_photo %}<img class="avatar" src="{{ user.profile_photo.url }}" alt="">{% else %}<span class="avatar">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>{% endif %}
+        <div class="meta lh-sm"><div class="fw-semibold text-white">{{ user.get_full_name|default:user.username }}</div><small>{{ user.get_role_display }}</small></div>
+      </div>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" class="btn btn-outline-light btn-sm w-100">Log out</button></form>
+    </div>
+  </aside>
+  <main class="main">
+    {% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }}" role="alert">{{ message }}</div>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

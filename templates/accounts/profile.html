@@ -1,0 +1,23 @@
+{% extends "layout_app.html" %}
+{% block title %}My profile{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>My profile</h1><p>Your account details as other staff see them.</p></div>
+  <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit profile</a>
+</div>
+<div class="panel">
+  <div class="d-flex flex-wrap gap-4 align-items-center mb-4">
+    {% if profile_user.profile_photo %}<img class="profile-photo" src="{{ profile_user.profile_photo.url }}" alt="Your profile photo">{% else %}<div class="profile-initial" aria-hidden="true">{{ profile_user.first_name|default:profile_user.username|slice:":1"|upper }}</div>{% endif %}
+    <div>
+      <h2 class="mb-1 fs-3">{{ profile_user.get_full_name|default:profile_user.username }}</h2>
+      <span class="badge-role">{{ profile_user.get_role_display }}</span>
+    </div>
+  </div>
+  <dl class="dl">
+    <dt>Username</dt><dd>{{ profile_user.username }}</dd>
+    <dt>Email</dt><dd>{{ profile_user.email }}</dd>
+    <dt>Contact number</dt><dd>{{ profile_user.contact_number|default:"Not set" }}</dd>
+    <dt>Member since</dt><dd>{{ profile_user.date_joined|date:"F j, Y" }}</dd>
+  </dl>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout_auth.html" %}
+{% block title %}Log in{% endblock %}
+{% block auth_content %}
+<h2>Log in</h2>
+<p class="sub">Use your username or email to continue.</p>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+  {% include "includes/form_fields.html" %}
+  <button type="submit" class="btn btn-primary w-100 mt-2">Log in</button>
+</form>
+<p class="mt-4 mb-0 text-center">New to VitalTrack? <a href="{% url 'signup' %}">Create an account</a></p>
+{% endblock %}

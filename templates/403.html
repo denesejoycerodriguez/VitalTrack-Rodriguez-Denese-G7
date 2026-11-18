@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Access denied{% endblock %}
+{% block body %}
+<div class="auth-main" style="min-height:100vh;background:var(--mist)">
+  <div class="auth-card text-center">
+    <div class="mb-3 d-inline-block">{% include "includes/logo.html" %}</div>
+    <h2>This page isn't for your role</h2>
+    <p class="sub">Your account doesn't have access to that dashboard.</p>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to my dashboard</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "layout_app.html" %}
+{% block title %}Nurse dashboard{% endblock %}
+{% block content %}
+<div class="pulse-banner">
+  <h2>Hello, {{ user.first_name|default:user.username }}</h2>
+  <p>You're signed in as {{ user.get_role_display }}. Last login: {{ user.last_login|date:"M j, Y, g:i A"|default:"first visit" }}.</p>
+  {% include "includes/pulse.html" %}
+</div>
+<h2 class="fs-5 mb-3">Your clinic tools</h2>
+<div class="row g-3">
+  {% for m in modules %}
+  <div class="col-md-6">
+    <div class="module"><span class="ico" aria-hidden="true">{{ m.icon }}</span><div><h3>{{ m.title }}</h3><p>{{ m.text }}</p></div></div>
+  </div>
+  {% endfor %}
+</div>
+<p class="field-help mt-3">These tools unlock as each module is built.</p>
+{% endblock %}

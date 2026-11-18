@@ -1,0 +1,34 @@
+{% extends "layout_app.html" %}
+{% block title %}Admin dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Admin dashboard</h1><p>Welcome back, {{ user.first_name|default:user.username }}.</p></div>
+  <a href="/admin/" class="btn btn-primary">Manage users</a>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3"><div class="stat"><div class="num">{{ total_users }}</div><div class="lbl">Total users</div></div></div>
+  <div class="col-6 col-lg-3"><div class="stat"><div class="num">{{ nurse_count }}</div><div class="lbl">School nurses</div></div></div>
+  <div class="col-6 col-lg-3"><div class="stat"><div class="num">{{ admin_count }}</div><div class="lbl">Administrators</div></div></div>
+  <div class="col-6 col-lg-3"><div class="stat {% if inactive_count %}alert-stat{% endif %}"><div class="num">{{ inactive_count }}</div><div class="lbl">Inactive accounts</div></div></div>
+</div>
+<div class="panel">
+  <h2>Newest accounts</h2>
+  <div class="table-responsive">
+    <table class="table">
+      <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Joined</th></tr></thead>
+      <tbody>
+        {% for u in recent_users %}
+        <tr>
+          <td class="fw-semibold">{{ u.get_full_name|default:u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td><span class="badge-role">{{ u.get_role_display }}</span></td>
+          <td>{% if u.is_active %}Active{% else %}<span class="badge-role badge-off">Inactive</span>{% endif %}</td>
+          <td>{{ u.date_joined|date:"M j, Y" }}</td>
+        </tr>
+        {% empty %}<tr><td colspan="5" class="text-muted">No accounts yet.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<p class="field-help mt-3">Compliance and trend reports will appear here once the reporting module is built.</p>
+{% endblock %}

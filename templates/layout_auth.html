@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="auth">
+  <section class="auth-side">
+    <a class="brand" href="{% url 'login' %}">{% include "includes/logo.html" %}<span class="brand-name">VitalTrack</span></a>
+    <div>
+      <h1>Student health records, in one place.</h1>
+      <p>Log visits and medication, track immunizations, and keep every student's record ready when it matters.</p>
+    </div>
+    {% include "includes/pulse.html" with cls="pulse" %}
+  </section>
+  <section class="auth-main">
+    <div class="auth-card">
+      {% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }}" role="alert">{{ message }}</div>{% endfor %}
+      {% block auth_content %}{% endblock %}
+    </div>
+  </section>
+</div>
+{% endblock %}
